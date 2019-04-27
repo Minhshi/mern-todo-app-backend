@@ -34,7 +34,7 @@ connection.once("open", function() {
   console.log("MongoDB connection established successfully");
 });
 
-// routes
+// CRUD routes
 todoRoutes.route("/").get(function(req, res) {
   todoSchema.find(function(err, todos) {
     if (err) {
