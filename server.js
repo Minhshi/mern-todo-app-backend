@@ -65,24 +65,42 @@ todoRoutes.route("/new").post(function(req, res) {
     });
 });
 
-todoRoutes.route("/edit/:id").post(function(req, res) {
-  todoSchema.findById(req.params.id, function(err, todo) {
-    if (!todo) {
-      res.status(404).send("Data is not found");
-    } else {
-      todo.title === req.body.title;
-      todo.description === req.body.description;
-      todo.completed === req.body.completed;
-    }
+// todoRoutes.route("/edit/:id").post(function(req, res) {
+//   todoSchema.findById(req.params.id, function(err, todo) {
+//     if (!todo) {
+//       res.status(404).send("Data is not found");
+//     } else {
+//       todo.title === req.body.title;
+//       todo.description === req.body.description;
+//       todo.completed === req.body.completed;
 
-    todo
-      .save()
-      .then(todo => {
-        res.json("Todo updated");
+//       todo
+//         .save()
+//         .then(todo => {
+//           res.json("Todo updated");
+//         })
+//         .catch(err => {
+//           res.status(400).send("Update not possible");
+//         });
+//     }
+//   });
+// });
+
+todoRoutes.route('/edit/:id').patch(function (req, res) {
+    todoSchema.findById(req.params.id, function(err, todo) {
+    if (!todo)
+      res.status(404).send("data is not found");
+    else {
+        todo.title = req.body.title;
+        todo.description = req.body.description
+        todo.completed = req.body.completed
+        todo.save().then(() => {
+          res.json('Updated');
       })
-      .catch(err => {
-        res.status(400).send("Update not possible");
+      .catch(() => {
+            res.status(400).send("unable to update the database");
       });
+    }
   });
 });
 
