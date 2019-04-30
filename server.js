@@ -104,6 +104,17 @@ todoRoutes.route('/edit/:id').patch(function (req, res) {
   });
 });
 
+todoRoutes.route("/delete/:id").delete(function (req,res) {
+  todoSchema.findByIdAndRemove(req.params.id, function (err, todo) {
+    if (!todo) {
+      res.status(404).send("data is not found")
+    }
+    else {
+      res.json("Sucessfully removed 1")
+    }
+  })
+})
+
 // make use of router(url extension, router)
 app.use("/todos", todoRoutes);
 
